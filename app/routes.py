@@ -2,14 +2,12 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db, bcrypt
 from app.models import User, VaultEntry
-from app.forms import LoginForm, RegistrationForm, VaultEntryForm
+from app.forms import LoginForm, RegistrationForm, VaultEntryForm, EditVaultEntryForm
 from app.utils import encrypt_password, decrypt_password
 from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('main', __name__)
 
-
-# Home → Login form
 @bp.route('/')
 def home():
     if current_user.is_authenticated:
@@ -17,8 +15,6 @@ def home():
     form = LoginForm()
     return render_template('login.html', form=form)
 
-
-# Login
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -36,8 +32,6 @@ def login():
 
     return render_template('login.html', form=form)
 
-
-# Register
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -58,8 +52,6 @@ def register():
 
     return render_template('register.html', form=form)
 
-
-# Dashboard
 @bp.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
@@ -90,8 +82,6 @@ def dashboard():
 
     return render_template('dashboard.html', form=form, entries=decrypted_entries)
 
-
-# Logout
 @bp.route('/logout')
 @login_required
 def logout():
@@ -99,8 +89,6 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('main.login'))
 
-
-# Delete Vault Entry
 @bp.route('/delete/<int:entry_id>', methods=['POST'])
 @login_required
 def delete_entry(entry_id):
@@ -113,3 +101,30 @@ def delete_entry(entry_id):
     db.session.commit()
     flash("Entry deleted successfully.", "success")
     return redirect(url_for('main.dashboard'))
+
+@bp.route('/edit/<int:entry_id>', methods=['GET', 'POST'])
+@login_required
+def edit_entry(entry_id):
+    entry = VaultEntry.query.get_or_404(entry_id)
+
+    if entry.owner != current_user:
+        flash("You are not authorized to edit this entry.", "danger")
+        return redirect(url_for('main.dashboard'))
+
+    form = EditVaultEntryForm()
+
+    if form.validate_on_submit():
+        entry.website = form.website.data
+        entry.login_username = form.login_username.data
+        if form.password.data:
+            entry.password_encrypted = encrypt_password(form.password.data)
+        db.session.commit()
+        flash("Entry updated successfully.", "success")
+        return redirect(url_for('main.dashboard'))
+
+    # Pre-fill form on GET request
+    if request.method == 'GET':
+        form.website.data = entry.website
+        form.login_username.data = entry.login_username
+
+    return render_template('edit_entry.html', form=form, entry=entry)

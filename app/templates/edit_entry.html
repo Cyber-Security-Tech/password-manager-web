@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Edit Vault Entry</h2>
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.website.label(class="form-label") }}
+      {{ form.website(class="form-control", value=entry.website) }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.login_username.label(class="form-label") }}
+      {{ form.login_username(class="form-control", value=entry.login_username) }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.password.label(class="form-label") }}
+      {{ form.password(class="form-control") }}
+      <div class="form-text">Leave this blank to keep the current password.</div>
+    </div>
+
+    <div>
+      {{ form.submit(class="btn btn-primary") }}
+      <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
