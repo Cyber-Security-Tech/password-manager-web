@@ -22,19 +22,19 @@ This web version brings sleek design, multi-user support, encryption, and respon
 
 ## 📸 Screenshots
 
-![Login Screen](screenshots/login.png)
+![Login Screen]](static/screenshots/login.png)
 *Login Page*
 
-![Dashboard - Add Password](screenshots/dashboard_add_password.png)
+![Dashboard - Add Password](static/screenshots/dashboard_add_password.png)
 *Add Password Form*
 
-![Dashboard - Saved Entries](screenshots/dashboard_saved_entries.png)
+![Dashboard - Saved Entries](static/screenshots/dashboard_saved_entries.png)
 *Saved Entries List*
 
-![Edit Vault Entry](screenshots/edit_vault_entry.png)
+![Edit Vault Entry](static/screenshots/edit_vault_entry.png)
 *Editing Vault Entry*
 
-![Search Vault Entries](screenshots/search_vault_entries.png)
+![Search Vault Entries](static/screenshots/search_vault_entries.png)
 *Search Vault Entries*
 
 ---
