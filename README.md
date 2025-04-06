@@ -22,7 +22,7 @@ This web version brings sleek design, multi-user support, encryption, and respon
 
 ## 📸 Screenshots
 
-![Login Screen]](static/screenshots/login.png)
+![Login Screen](static/screenshots/login.png)
 *Login Page*
 
 ![Dashboard - Add Password](static/screenshots/dashboard_add_password.png)
