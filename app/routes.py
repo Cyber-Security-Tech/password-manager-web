@@ -1,20 +1,21 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
+from sqlalchemy.exc import IntegrityError
 from app import db, bcrypt
 from app.models import User, VaultEntry
 from app.forms import LoginForm, RegistrationForm, VaultEntryForm, EditVaultEntryForm
 from app.utils import encrypt_password, decrypt_password
-from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('main', __name__)
 
+# Home route redirects authenticated users to dashboard
 @bp.route('/')
 def home():
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
-    form = LoginForm()
-    return render_template('login.html', form=form)
+    return redirect(url_for('main.login'))
 
+# --- User Login ---
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -32,6 +33,7 @@ def login():
 
     return render_template('login.html', form=form)
 
+# --- User Registration ---
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -52,6 +54,7 @@ def register():
 
     return render_template('register.html', form=form)
 
+# --- Dashboard: View & Add Entries ---
 @bp.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
@@ -70,18 +73,18 @@ def dashboard():
         flash('Password saved!', 'success')
         return redirect(url_for('main.dashboard'))
 
+    # Fetch and decrypt all current user's entries
     entries = VaultEntry.query.filter_by(user_id=current_user.id).all()
-    decrypted_entries = []
-    for entry in entries:
-        decrypted_entries.append({
-            'id': entry.id,
-            'website': entry.website,
-            'login_username': entry.login_username,
-            'password': decrypt_password(entry.password_encrypted)
-        })
+    decrypted_entries = [{
+        'id': e.id,
+        'website': e.website,
+        'login_username': e.login_username,
+        'password': decrypt_password(e.password_encrypted)
+    } for e in entries]
 
     return render_template('dashboard.html', form=form, entries=decrypted_entries)
 
+# --- User Logout ---
 @bp.route('/logout')
 @login_required
 def logout():
@@ -89,6 +92,7 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('main.login'))
 
+# --- Delete Vault Entry ---
 @bp.route('/delete/<int:entry_id>', methods=['POST'])
 @login_required
 def delete_entry(entry_id):
@@ -102,11 +106,11 @@ def delete_entry(entry_id):
     flash("Entry deleted successfully.", "success")
     return redirect(url_for('main.dashboard'))
 
+# --- Edit Vault Entry ---
 @bp.route('/edit/<int:entry_id>', methods=['GET', 'POST'])
 @login_required
 def edit_entry(entry_id):
     entry = VaultEntry.query.get_or_404(entry_id)
-
     if entry.owner != current_user:
         flash("You are not authorized to edit this entry.", "danger")
         return redirect(url_for('main.dashboard'))
@@ -116,13 +120,12 @@ def edit_entry(entry_id):
     if form.validate_on_submit():
         entry.website = form.website.data
         entry.login_username = form.login_username.data
-        if form.password.data:
+        if form.password.data:  # Only update if password is provided
             entry.password_encrypted = encrypt_password(form.password.data)
         db.session.commit()
         flash("Entry updated successfully.", "success")
         return redirect(url_for('main.dashboard'))
 
-    # Pre-fill form on GET request
     if request.method == 'GET':
         form.website.data = entry.website
         form.login_username.data = entry.login_username

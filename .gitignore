@@ -1,4 +1,55 @@
-venv/
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.db
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables
 .env
+
+# VS Code settings
+.vscode/
+
+# MacOS system files
+.DS_Store
+
+# Pytest cache and coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Flask DB
+*.sqlite3
+*.db
+instance/
+
+# Logs
+*.log
+
+# OS-generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Compiled files
+*.so
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# PyInstaller
+*.spec
+
+# Screenshots or demo media (if auto-generated)
+static/screenshots/

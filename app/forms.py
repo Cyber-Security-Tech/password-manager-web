@@ -3,14 +3,14 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length, Optional
 
 
-# --- Login Form ---
+# Login form for user authentication
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
 
-# --- Registration Form ---
+# Registration form for creating a new user
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[
@@ -24,7 +24,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
 
-# --- Vault Entry Form (Add) ---
+# Vault entry form for adding new credentials
 class VaultEntryForm(FlaskForm):
     website = StringField('Website', validators=[DataRequired()])
     login_username = StringField('Login Username', validators=[DataRequired()])
@@ -32,7 +32,7 @@ class VaultEntryForm(FlaskForm):
     submit = SubmitField('Save Password')
 
 
-# --- Vault Entry Form (Edit) ---
+# Vault entry form for editing credentials
 class EditVaultEntryForm(FlaskForm):
     website = StringField('Website', validators=[DataRequired()])
     login_username = StringField('Login Username', validators=[DataRequired()])

@@ -4,7 +4,7 @@
 <div class="container mt-5">
   <h2 class="mb-4">Welcome, {{ current_user.username }} 👋</h2>
 
-  <!-- Add Password Form -->
+  <!-- 🔐 Add Password Form -->
   <div class="card mb-5">
     <div class="card-header">Add New Password</div>
     <div class="card-body">
@@ -12,7 +12,7 @@
         {{ form.hidden_tag() }}
         <div class="mb-3">
           {{ form.website.label(class="form-label") }}
-          {{ form.website(class="form-control") }}
+          {{ form.website(class="form-control", autofocus=True) }}  <!-- Autofocus for faster input -->
         </div>
         <div class="mb-3">
           {{ form.login_username.label(class="form-label") }}
@@ -22,7 +22,7 @@
           {{ form.password.label(class="form-label") }}
           <div class="input-group">
             {{ form.password(class="form-control", id="password-field") }}
-            <button type="button" class="btn btn-outline-secondary" onclick="generatePassword()">Generate</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="generatePassword()" title="Generate strong password">Generate</button>
           </div>
         </div>
         <div>
@@ -32,12 +32,12 @@
     </div>
   </div>
 
-  <!-- Search Form -->
+  <!-- 🔍 Live Search Field -->
   <div class="mb-4 d-flex">
     <input type="text" id="search-input" class="form-control me-2" placeholder="Live Search website or username...">
   </div>
 
-  <!-- Saved Passwords Table -->
+  <!-- 💾 Saved Password Entries -->
   {% if entries %}
   <h4>Your Saved Entries</h4>
   <table class="table table-bordered table-hover" id="entries-table">
@@ -52,20 +52,25 @@
     <tbody>
       {% for entry in entries %}
       <tr>
+        <!-- 📂 Searchable Cells -->
         <td class="searchable">{{ entry.website }}</td>
         <td class="searchable">{{ entry.login_username }}</td>
+
+        <!-- 📋 Copy Password UI -->
         <td>
           <div class="input-group">
             <input type="text" class="form-control" id="password-{{ entry.id }}" value="{{ entry.password }}" readonly>
-            <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('password-{{ entry.id }}')">📋</button>
+            <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('password-{{ entry.id }}')" title="Copy to clipboard">📋</button>
           </div>
         </td>
+
+        <!-- ✏️ / ❌ Edit and Delete Actions -->
         <td>
           <div class="d-flex">
-            <a href="{{ url_for('main.edit_entry', entry_id=entry.id) }}" class="btn btn-outline-primary btn-sm me-2">✏️</a>
+            <a href="{{ url_for('main.edit_entry', entry_id=entry.id) }}" class="btn btn-outline-primary btn-sm me-2" title="Edit entry">✏️</a>
             <form action="{{ url_for('main.delete_entry', entry_id=entry.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this entry?');">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-              <button class="btn btn-outline-danger btn-sm" type="submit">❌</button>
+              <button class="btn btn-outline-danger btn-sm" type="submit" title="Delete entry">❌</button>
             </form>
           </div>
         </td>
@@ -78,7 +83,7 @@
   {% endif %}
 </div>
 
-<!-- Scripts -->
+<!-- ⚙️ Scripts -->
 <script>
 function generatePassword(length = 12) {
   const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_";
@@ -93,13 +98,13 @@ function generatePassword(length = 12) {
 function copyToClipboard(inputId) {
   const input = document.getElementById(inputId);
   input.select();
-  input.setSelectionRange(0, 99999); // For mobile
+  input.setSelectionRange(0, 99999); // Mobile support
   navigator.clipboard.writeText(input.value).then(() => {
     alert("Password copied to clipboard!");
   });
 }
 
-// Live search
+// 🔍 Live Filtering of Table Rows
 document.getElementById("search-input").addEventListener("input", function () {
   const searchValue = this.value.toLowerCase();
   const rows = document.querySelectorAll("#entries-table tbody tr");

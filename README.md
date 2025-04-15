@@ -1,95 +1,116 @@
 
-# 🔐 Password Manager Web App (Flask, Bootstrap, SQLite)
+# Password Manager Web App (Flask, Bootstrap, SQLite)
 
 A full-stack, secure password manager built using Flask and Bootstrap — the modern web evolution of my original [GUI-based password manager](https://github.com/Cyber-Security-Tech/password-manager-gui).  
-This web version brings sleek design, multi-user support, encryption, and responsive functionality to the browser.
+This version brings multi-user support, encryption, password generation, and a responsive interface to the browser.
 
 ---
 
 ## 🚀 What’s New in the Web Version
 
-✅ **Full-stack Flask Web App** — Replaces the old GUI with a modern web interface  
-✅ **User Registration & Login** — Secure, multi-user system with bcrypt password hashing  
-✅ **Vault Dashboard** — Add, view, search, and edit saved credentials with ease  
-✅ **Encrypted Passwords** — Vault entries are encrypted using Fernet symmetric encryption  
-✅ **Clipboard Copy** — One-click password copy from the web interface  
-✅ **Password Generator** — Generate strong random passwords instantly  
-✅ **Live Search** — Filter your saved entries in real-time  
-✅ **Responsive Design** — Built with Bootstrap 5 for mobile-friendly layout  
-✅ **Flash Messages & Form Validation** — Clean user feedback and error handling
+- Full-stack Flask web architecture with backend and frontend separation  
+- User registration & login with secure bcrypt hashing  
+- Password vault with CRUD functionality (Add, Edit, Delete)  
+- Encrypted password storage using `cryptography.fernet`  
+- Clipboard copy buttons for quick password access  
+- Built-in password generator  
+- Live search across saved credentials  
+- Responsive design using Bootstrap 5
 
 ---
 
-## 📸 Screenshots
-
-![Login Screen](static/screenshots/login.png)
-*Login Page*
-
-![Dashboard - Add Password](static/screenshots/dashboard_add_password.png)
-*Add Password Form*
-
-![Dashboard - Saved Entries](static/screenshots/dashboard_saved_entries.png)
-*Saved Entries List*
-
-![Edit Vault Entry](static/screenshots/edit_vault_entry.png)
-*Editing Vault Entry*
-
-![Search Vault Entries](static/screenshots/search_vault_entries.png)
-*Search Vault Entries*
-
----
-
-## 🧠 Features Summary
+## 🔐 Features Summary
 
 | Feature                  | Description                                             |
 |--------------------------|---------------------------------------------------------|
-| 🔐 Master Login          | Secure login/register with hashed passwords             |
-| 🔑 Password Vault        | Add, edit, delete, and view encrypted credentials       |
-| 📋 Copy to Clipboard     | One-click copy password buttons                         |
-| 🔍 Live Search           | Instantly filter saved entries as you type              |
-| 🛠 Password Generator     | Auto-generate secure passwords                          |
-| 🧊 Encryption            | All stored passwords are encrypted using `cryptography` |
-| 🖥️ Clean UI              | Bootstrap-based responsive and modern interface         |
+| Master Login             | Secure login/register with hashed passwords             |
+| Password Vault           | Add, edit, delete, and view encrypted credentials       |
+| Copy to Clipboard        | One-click password copy buttons                         |
+| Live Search              | Instantly filter saved entries as you type              |
+| Password Generator       | Auto-generate secure passwords                          |
+| Encryption               | Stored passwords are encrypted using `cryptography`     |
+| Responsive UI            | Bootstrap-based mobile-friendly layout                  |
 
 ---
 
-## ⚙️ How to Run (Locally)
+## 🖼️ Screenshots
 
-1. **Clone the repository**  
+![Login Screen](static/screenshots/login.png)  
+![Add Password](static/screenshots/dashboard_add_password.png)  
+![Saved Entries](static/screenshots/dashboard_saved_entries.png)  
+![Edit Vault Entry](static/screenshots/edit_vault_entry.png)  
+![Search Vault](static/screenshots/search_vault_entries.png)
+
+---
+
+## ⚙️ How to Run Locally
+
 ```bash
 git clone https://github.com/Cyber-Security-Tech/password-manager-web.git
 cd password-manager-web
-```
 
-2. **Set up a virtual environment**  
-```bash
 python -m venv venv
-venv\Scriptsctivate   # On Windows
+venv\Scripts\activate  # Windows
 # or
-source venv/bin/activate  # On macOS/Linux
-```
+source venv/bin/activate  # macOS/Linux
 
-3. **Install the dependencies**  
-```bash
 pip install -r requirements.txt
-```
 
-4. **Create the database**
-```bash
+# Create the database
 flask shell
 >>> from app import db
 >>> db.create_all()
 >>> exit()
-```
 
-5. **Run the app**  
-```bash
+# Run the app
 python run.py
 ```
 
 ---
 
-## 🗂️ File Structure Overview
+## 🧪 Testing
+
+This project includes a complete `test_app.py` script that simulates full user interaction using `pytest` and Flask's test client.
+
+Covered functionality:
+- User registration and login flows
+- Adding new vault entries
+- Validating flash messages and redirects
+- Handling incorrect credentials and negative cases
+
+---
+
+## 🧠 What I Learned
+
+- Structuring a Flask web application using Blueprints and factory pattern  
+- Implementing secure login systems with hashed credentials  
+- Encrypting sensitive fields using `cryptography.fernet`  
+- Creating dynamic frontends with live search and responsive UI  
+- Writing automated tests using pytest and Flask's test client
+
+---
+
+## 🧱 Tech Stack
+
+- **Backend**: Flask, SQLAlchemy, Flask-Login, Flask-WTF, Flask-Bcrypt  
+- **Frontend**: Bootstrap 5, Jinja2 Templates  
+- **Encryption**: `cryptography.fernet`  
+- **Database**: SQLite  
+- **Testing**: pytest
+
+---
+
+## 💡 Future Improvements
+
+- Email-based 2FA or MFA  
+- Export/import vault entries (CSV or JSON)  
+- User profile settings  
+- Dark mode toggle  
+- Auto-fill browser extension
+
+---
+
+## 📁 Project Structure
 
 ```
 password-manager-web/
@@ -106,41 +127,16 @@ password-manager-web/
 │       ├── dashboard.html
 │       ├── edit_entry.html
 ├── static/
-│   ├── css/
-│   └── js/
+│   └── screenshots/
+│       ├── login.png
+│       ├── dashboard_add_password.png
+│       ├── dashboard_saved_entries.png
+│       ├── edit_vault_entry.png
+│       └── search_vault_entries.png
 ├── run.py
 ├── test_app.py
 ├── requirements.txt
+├── .env
+├── .gitignore
 └── README.md
 ```
-
----
-
-## 📦 Tech Stack
-
-- **Backend**: Flask, SQLAlchemy, Flask-Login, Flask-WTF, Bcrypt  
-- **Frontend**: Bootstrap 5, Jinja2 Templates  
-- **Encryption**: `cryptography.fernet` for secure password storage  
-- **Database**: SQLite (local, easy to switch later)
-
----
-
-## 🛠️ Still Want the GUI Version?
-
-Check out the original version here:  
-👉 [Password Manager GUI](https://github.com/Cyber-Security-Tech/password-manager-gui)
-
----
-
-## 📄 License
-
-MIT License  
-© Nida Ilyas – 2025
-
----
-
-## 🙌 Future Ideas
-
-- Add email 2FA  
-- Export/import credentials  
-- Dark mode
