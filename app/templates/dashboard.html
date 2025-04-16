@@ -4,7 +4,7 @@
 <div class="container mt-5">
   <h2 class="mb-4">Welcome, {{ current_user.username }} 👋</h2>
 
-  <!-- 🔐 Add Password Form -->
+  <!--  Add Password Form -->
   <div class="card mb-5">
     <div class="card-header">Add New Password</div>
     <div class="card-body">
@@ -12,16 +12,16 @@
         {{ form.hidden_tag() }}
         <div class="mb-3">
           {{ form.website.label(class="form-label") }}
-          {{ form.website(class="form-control", autofocus=True) }}  <!-- Autofocus for faster input -->
+          {{ form.website(class="form-control", id="website", autofocus=True) }}
         </div>
         <div class="mb-3">
           {{ form.login_username.label(class="form-label") }}
-          {{ form.login_username(class="form-control") }}
+          {{ form.login_username(class="form-control", id="login_username") }}
         </div>
         <div class="mb-3">
           {{ form.password.label(class="form-label") }}
           <div class="input-group">
-            {{ form.password(class="form-control", id="password-field") }}
+            {{ form.password(class="form-control", id="password") }}
             <button type="button" class="btn btn-outline-secondary" onclick="generatePassword()" title="Generate strong password">Generate</button>
           </div>
         </div>
@@ -32,12 +32,12 @@
     </div>
   </div>
 
-  <!-- 🔍 Live Search Field -->
+  <!--  Live Search Field -->
   <div class="mb-4 d-flex">
     <input type="text" id="search-input" class="form-control me-2" placeholder="Live Search website or username...">
   </div>
 
-  <!-- 💾 Saved Password Entries -->
+  <!--  Saved Password Entries -->
   {% if entries %}
   <h4>Your Saved Entries</h4>
   <table class="table table-bordered table-hover" id="entries-table">
@@ -52,19 +52,14 @@
     <tbody>
       {% for entry in entries %}
       <tr>
-        <!-- 📂 Searchable Cells -->
         <td class="searchable">{{ entry.website }}</td>
         <td class="searchable">{{ entry.login_username }}</td>
-
-        <!-- 📋 Copy Password UI -->
         <td>
           <div class="input-group">
             <input type="text" class="form-control" id="password-{{ entry.id }}" value="{{ entry.password }}" readonly>
             <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('password-{{ entry.id }}')" title="Copy to clipboard">📋</button>
           </div>
         </td>
-
-        <!-- ✏️ / ❌ Edit and Delete Actions -->
         <td>
           <div class="d-flex">
             <a href="{{ url_for('main.edit_entry', entry_id=entry.id) }}" class="btn btn-outline-primary btn-sm me-2" title="Edit entry">✏️</a>
@@ -92,19 +87,18 @@ function generatePassword(length = 12) {
     const randomChar = charset[Math.floor(Math.random() * charset.length)];
     password += randomChar;
   }
-  document.getElementById("password-field").value = password;
+  document.getElementById("password").value = password;
 }
 
 function copyToClipboard(inputId) {
   const input = document.getElementById(inputId);
   input.select();
-  input.setSelectionRange(0, 99999); // Mobile support
+  input.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(input.value).then(() => {
     alert("Password copied to clipboard!");
   });
 }
 
-// 🔍 Live Filtering of Table Rows
 document.getElementById("search-input").addEventListener("input", function () {
   const searchValue = this.value.toLowerCase();
   const rows = document.querySelectorAll("#entries-table tbody tr");
