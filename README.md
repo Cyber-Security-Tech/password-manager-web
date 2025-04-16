@@ -1,8 +1,13 @@
-
 # Password Manager Web App (Flask, Bootstrap, SQLite)
 
 A full-stack, secure password manager built using Flask and Bootstrap — the modern web evolution of my original [GUI-based password manager](https://github.com/Cyber-Security-Tech/password-manager-gui).  
 This version brings multi-user support, encryption, password generation, and a responsive interface to the browser.
+
+---
+
+## 🎥 Demo Video
+
+▶️ [Click here to watch the demo video](static/demo/demo.mp4)
 
 ---
 
@@ -127,6 +132,8 @@ password-manager-web/
 │       ├── dashboard.html
 │       ├── edit_entry.html
 ├── static/
+│   ├── demo/
+│   │   └── demo.mp4
 │   └── screenshots/
 │       ├── login.png
 │       ├── dashboard_add_password.png
