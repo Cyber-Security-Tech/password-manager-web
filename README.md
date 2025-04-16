@@ -5,9 +5,15 @@ This version brings multi-user support, encryption, password generation, and a r
 
 ---
 
+## 🌐 Live Demo
+
+🔗 [View the deployed app on Render](https://password-manager-web-mh0f.onrender.com)
+
+---
+
 ## 🎥 Demo Video
 
-▶️ [Click here to watch the demo video](static/demo/demo.mp4)
+▶️ [Watch Demo Video on Google Drive](https://drive.google.com/file/d/1oyXyYrEpGUVASn18tGp9psi2mLyd0nML/view)
 
 ---
 
