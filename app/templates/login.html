@@ -11,13 +11,27 @@
       <!--  Username Field -->
       <div class="mb-3">
         <label for="username">Username</label>
-        {{ form.username(class="form-control", id="username", placeholder="Enter username", autocomplete="new-username") }}
+        {{ form.username(class="form-control", id="username", placeholder="Enter username", autocomplete="username") }}
+        {% if form.username.errors %}
+          <div class="text-danger mt-1">
+            {% for error in form.username.errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <!--  Password Field -->
       <div class="mb-3">
         <label for="password">Password</label>
-        {{ form.password(class="form-control", id="password", placeholder="Enter password", autocomplete="new-password") }}
+        {{ form.password(class="form-control", id="password", placeholder="Enter password", autocomplete="current-password") }}
+        {% if form.password.errors %}
+          <div class="text-danger mt-1">
+            {% for error in form.password.errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
 
       <!--  Submit Button -->
